@@ -23,13 +23,25 @@ class Gallery extends Component {
             return <div>Loading...</div>
         }
 
+        if (this.props.gallery.length === 0) {
+            return <h1>No photos !</h1>
+        }
+
         const images = this.props.gallery.map(photo => {
+            let removeBtn = null;
+
+            try {
+                if (this.props.user._id === photo.user._id) {
+                    removeBtn = <span style={{color: 'red'}} onClick={() => this.props.deletePhoto(photo._id)}>REMOVE</span>
+                }
+            } catch (e) {
+                removeBtn = null;
+            }
+
             const badge = (
                 <Fragment>
                     <NavLink style={{display: 'inline-block',color: 'orange'}} tag={RouterNavLink} to={`/gallery?uid=${photo.user._id}`}>{photo.user.name}</NavLink>
-
-                    {this.props.user._id === photo.user._id ?  <span style={{color: 'red'}} onClick={() => this.props.deletePhoto(photo._id)}>REMOVE</span> : null}
-
+                    {removeBtn}
                 </Fragment>
             );
 
