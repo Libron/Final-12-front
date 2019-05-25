@@ -17,7 +17,7 @@ const Toolbar = ({user, logout}) => {
 
             <Nav className="ml-auto" navbar>
                 <NavItem>
-                    <NavLink tag={RouterNavLink} to="/" exact>All products</NavLink>
+                    <NavLink tag={RouterNavLink} to="/" exact>All photos</NavLink>
                 </NavItem>
                 {user ? <UserMenu user={user} logout={logout} /> : <AnonymousMenu/>}
             </Nav>
