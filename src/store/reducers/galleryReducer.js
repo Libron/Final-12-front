@@ -9,7 +9,8 @@ const initialState = {
     gallery: [],
     photo: null,
     loading: false,
-    error: null
+    error: null,
+    count: 0
 };
 
 const galleryReducer = (state = initialState, action) => {
@@ -18,10 +19,14 @@ const galleryReducer = (state = initialState, action) => {
         case UPLOAD_PHOTO_REQUEST:
             return {...state, loading: true};
         case FETCH_PHOTOS_SUCCESS:
-            return {...state, gallery: action.photos, loading: false};
+            return {...state, gallery: action.photos, loading: false, count: action.photos.length};
         case UPLOAD_PHOTO_SUCCESS:
         case DELETE_PHOTO_SUCCESS:
-            return {...state, photo: action.photo, loading: false};
+            console.log(action.photo);
+            const indx = state.gallery.findIndex(item => item._id === action.photo._id);
+            const photos = [...state.gallery];
+            photos.splice(indx, 1);
+            return {...state, gallery: photos, count: photos.length, loading: false};
         case UPLOAD_PHOTO_FAILURE:
         case FETCH_PHOTOS_FAILURE:
             return {...state, error: action.error};
