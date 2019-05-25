@@ -2,9 +2,7 @@ import React from 'react';
 import {
     Nav,
     Navbar,
-    NavbarBrand,
-    NavItem,
-    NavLink
+    NavbarBrand
 } from "reactstrap";
 import {NavLink as RouterNavLink} from 'react-router-dom';
 import UserMenu from "./Menus/UserMenu";
@@ -12,13 +10,9 @@ import AnonymousMenu from "./Menus/AnonymousMenu";
 
 const Toolbar = ({user, logout}) => {
     return (
-        <Navbar color="dark" dark expand="md">
+        <Navbar color="dark" dark expand="md" style={{marginBottom: '15px'}}>
             <NavbarBrand tag={RouterNavLink} to="/">Gallery JS</NavbarBrand>
-
             <Nav className="ml-auto" navbar>
-                <NavItem>
-                    <NavLink tag={RouterNavLink} to="/" exact>All photos</NavLink>
-                </NavItem>
                 {user ? <UserMenu user={user} logout={logout} /> : <AnonymousMenu/>}
             </Nav>
         </Navbar>

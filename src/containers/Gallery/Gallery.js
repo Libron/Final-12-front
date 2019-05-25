@@ -43,7 +43,6 @@ class Gallery extends Component {
             }
         });
 
-        console.log(this.props.gallery);
         return (
             <div>
                 <GalleryUI
