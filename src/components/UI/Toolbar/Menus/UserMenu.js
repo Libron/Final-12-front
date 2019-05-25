@@ -1,11 +1,11 @@
 import React from 'react';
-import {DropdownItem, DropdownMenu, DropdownToggle, NavLink, UncontrolledDropdown} from "reactstrap";
+import {DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "reactstrap";
 import {NavLink as RouterNavLink} from 'react-router-dom';
 
 const UserMenu = ({user, logout}) => (
     <UncontrolledDropdown nav inNavbar>
         <DropdownToggle nav caret>
-            Hello, <NavLink style={{display: 'inline-block'}} tag={RouterNavLink} to={'/gallery?uid=' + user._id}>{user.name}</NavLink>
+            Hello, {user.name}
         </DropdownToggle>
         <DropdownMenu right>
             <DropdownItem tag={RouterNavLink} to={'/gallery/uploadPhoto'}>
