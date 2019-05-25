@@ -1,4 +1,5 @@
 import {
+    DELETE_PHOTO_SUCCESS,
     FETCH_PHOTOS_FAILURE,
     FETCH_PHOTOS_REQUEST,
     FETCH_PHOTOS_SUCCESS, UPLOAD_PHOTO_FAILURE, UPLOAD_PHOTO_REQUEST, UPLOAD_PHOTO_SUCCESS
@@ -19,6 +20,7 @@ const galleryReducer = (state = initialState, action) => {
         case FETCH_PHOTOS_SUCCESS:
             return {...state, gallery: action.photos, loading: false};
         case UPLOAD_PHOTO_SUCCESS:
+        case DELETE_PHOTO_SUCCESS:
             return {...state, photo: action.photo, loading: false};
         case UPLOAD_PHOTO_FAILURE:
         case FETCH_PHOTOS_FAILURE:
