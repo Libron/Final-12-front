@@ -22,7 +22,6 @@ const galleryReducer = (state = initialState, action) => {
             return {...state, gallery: action.photos, loading: false, count: action.photos.length};
         case UPLOAD_PHOTO_SUCCESS:
         case DELETE_PHOTO_SUCCESS:
-            console.log(action.photo);
             const indx = state.gallery.findIndex(item => item._id === action.photo._id);
             const photos = [...state.gallery];
             photos.splice(indx, 1);
