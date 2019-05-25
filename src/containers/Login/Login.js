@@ -3,6 +3,7 @@ import {Alert, Button,  Form, FormGroup} from "reactstrap";
 import FormElement from "../../components/UI/Form/FormElement";
 import connect from "react-redux/es/connect/connect";
 import {loginUser} from "../../store/actions/userActions";
+import FacebookLogin from "../../components/FacebookLogin/FacebookLogin";
 
 class Login extends Component {
     state = {
@@ -29,6 +30,10 @@ class Login extends Component {
                     <Alert color="danger">{this.props.error.error}</Alert>
                 )}
                 <Form onSubmit={this.submitFormHandler}>
+                    <FormGroup>
+                        <FacebookLogin />
+                    </FormGroup>
+
                     <FormElement
                         propertyName="username"
                         title="Username"
