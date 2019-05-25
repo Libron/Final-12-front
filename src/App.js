@@ -1,20 +1,33 @@
 import React, {Component} from 'react';
-import {NotificationContainer} from "react-notifications";
 import {Container} from "reactstrap";
+import {connect} from "react-redux";
+import {withRouter} from "react-router";
+import {NotificationContainer} from "react-notifications";
+
+import Toolbar from "./components/UI/Toolbar/Toolbar";
+import {logoutUser} from "./store/actions/userActions";
 
 import './App.css';
-import Toolbar from "./components/UI/Toolbar/Toolbar";
 
 class App extends Component {
     render() {
         return (
             <div className="App">
                 <NotificationContainer/>
-                <Toolbar />
-                <Container></Container>
+                <Toolbar user={this.props.user} logout={this.props.logoutUser} />
+                <Container>
+                </Container>
             </div>
         );
     }
 }
 
-export default App;
+const mapStateToProps = state => ({
+    user: state.users.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+    logoutUser: () => dispatch(logoutUser())
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
