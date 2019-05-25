@@ -46,9 +46,13 @@ export const uploadPhoto = data => {
         return axios.post('/gallery', data).then(
             response => {
                 dispatch(uploadPhotoSuccess(response.data));
+                NotificationManager.success('Photo uploaded');
                 dispatch(push('/'));
             },
-            error => dispatch(uploadPhotoFailure(error))
+            error => {
+                NotificationManager.warning('Something went wrong');
+                dispatch(uploadPhotoFailure(error));
+            }
         )
     }
 };
