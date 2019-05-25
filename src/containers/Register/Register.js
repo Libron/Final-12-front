@@ -3,6 +3,7 @@ import {Alert, Button, Col, Form, FormFeedback, FormGroup, Input, Label} from "r
 import {connect} from "react-redux";
 import FormElement from "../../components/UI/Form/FormElement";
 import {registerUser} from "../../store/actions/userActions";
+import FacebookLogin from "../../components/FacebookLogin/FacebookLogin";
 
 class Register extends Component {
     state = {
@@ -49,6 +50,10 @@ class Register extends Component {
                     </Alert>
                 )}
                 <Form onSubmit={this.submitFormHandler}>
+                    <FormGroup>
+                        <FacebookLogin />
+                    </FormGroup>
+
                     <FormElement
                         propertyName="name"
                         title="Display Name"
