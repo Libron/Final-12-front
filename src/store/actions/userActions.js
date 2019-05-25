@@ -23,7 +23,7 @@ const loginUserFailure = error => ({type: LOGIN_USER_FAILURE, error});
 
 export const logoutUser = () => {
     return dispatch => {
-        return axios.delete('/users/session').then(
+        return axios.delete('/users/sessions').then(
             () => {
                 NotificationManager.success('Logged out successfully');
                 dispatch({type: LOGOUT_USER})

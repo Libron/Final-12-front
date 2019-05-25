@@ -18,7 +18,7 @@ const usersReducer = (state = initialState, action) => {
         case LOGIN_USER_REQUEST:
             return {...state, loading: true};
         case REGISTER_USER_SUCCESS:
-            return {...state, registerError: null, loading: false};
+            return {...state, user: action.user, registerError: null, loading: false};
         case REGISTER_USER_FAILURE:
             return {...state, registerError: action.error, loading: false};
         case LOGIN_USER_SUCCESS:
