@@ -4,23 +4,35 @@ import GalleryUI from 'react-grid-gallery';
 import {apiURL} from '../../constants';
 
 import {deletePhoto, fetchPhotos} from "../../store/actions/galleryActions";
-import {NavLink} from "reactstrap";
+import {Badge, NavLink} from "reactstrap";
 import {NavLink as RouterNavLink} from 'react-router-dom';
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Gallery extends Component {
+    state = {
+        pageTitle: 'All Photos'
+    };
+
     componentDidMount() {
-        this.props.fetchPhotos();
+        this.props.fetchPhotos(this.props.location.search);
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.location.search !== this.props.location.search) {
             this.props.fetchPhotos(this.props.location.search);
+            if (!this.props.location.search) {
+                this.setTitle('All Photos');
+            }
         }
     }
 
+    setTitle = (title) => {
+        this.setState({...this.state, pageTitle: title})
+    };
+
     render() {
-        if (!this.props.gallery) {
-            return <div>Loading...</div>
+        if (!this.props.gallery || this.props.loading) {
+            return <Spinner />
         }
 
         if (this.props.gallery.length === 0) {
@@ -40,7 +52,7 @@ class Gallery extends Component {
 
             const badge = (
                 <Fragment>
-                    <NavLink style={{display: 'inline-block',color: 'orange'}} tag={RouterNavLink} to={`/gallery?uid=${photo.user._id}`}>{photo.user.name}</NavLink>
+                    <NavLink style={{display: 'inline-block',color: 'orange'}} tag={RouterNavLink} to={`/gallery?uid=${photo.user._id}`} onClick={() => {this.setTitle(photo.user.name)}}>{photo.user.name}</NavLink>
                     {removeBtn}
                 </Fragment>
             );
@@ -57,6 +69,7 @@ class Gallery extends Component {
 
         return (
             <div>
+                <h2>{this.state.pageTitle}<Badge style={{margin: '0 10px'}} color="warning">{this.props.count}</Badge></h2>
                 <GalleryUI
                     images={images}
                     enableImageSelection={false}
@@ -69,13 +82,14 @@ class Gallery extends Component {
 
 const mapStateToProps = state => ({
     gallery: state.gallery.gallery,
-    user: state.users.user
+    user: state.users.user,
+    loading: state.gallery.loading,
+    count: state.gallery.count
 });
 
 const mapDispatchToProps = dispatch => ({
    fetchPhotos: query => dispatch(fetchPhotos(query)),
    deletePhoto: id => dispatch(deletePhoto(id))
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Gallery);
