@@ -8,6 +8,7 @@ import Toolbar from "./components/UI/Toolbar/Toolbar";
 import {logoutUser} from "./store/actions/userActions";
 
 import './App.css';
+import Routes from "./Routes";
 
 class App extends Component {
     render() {
@@ -16,6 +17,7 @@ class App extends Component {
                 <NotificationContainer/>
                 <Toolbar user={this.props.user} logout={this.props.logoutUser} />
                 <Container>
+                    <Routes user={this.props.user} />
                 </Container>
             </div>
         );
