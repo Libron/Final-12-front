@@ -1,15 +1,55 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
-import {fetchPhotos} from "../../store/actions/galleryActions";
+import GalleryUI from 'react-grid-gallery';
+import {apiURL} from '../../constants';
+
+import {deletePhoto, fetchPhotos} from "../../store/actions/galleryActions";
+import {NavLink} from "reactstrap";
+import {NavLink as RouterNavLink} from 'react-router-dom';
 
 class Gallery extends Component {
     componentDidMount() {
         this.props.fetchPhotos();
     }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.location.search !== this.props.location.search) {
+            this.props.fetchPhotos(this.props.location.search);
+        }
+    }
+
     render() {
+        if (!this.props.gallery) {
+            return <div>Loading...</div>
+        }
+
+        const images = this.props.gallery.map(photo => {
+            const badge = (
+                <Fragment>
+                    <NavLink style={{display: 'inline-block',color: 'orange'}} tag={RouterNavLink} to={`/gallery?uid=${photo.user._id}`}>{photo.user.name}</NavLink>
+
+                    {this.props.user._id === photo.user._id ?  <span style={{color: 'red'}} onClick={() => this.props.deletePhoto(photo._id)}>REMOVE</span> : null}
+
+                </Fragment>
+            );
+
+            return {
+                src: apiURL + '/uploads/' + photo.image,
+                thumbnail: apiURL + '/uploads/' + photo.image,
+                thumbnailWidth: 320,
+                thumbnailHeight: 174,
+                tags: [{value: badge, title: photo.title}],
+                caption: photo.title
+            }
+        });
+
+        console.log(this.props.gallery);
         return (
             <div>
-                
+                <GalleryUI
+                    images={images}
+                    enableImageSelection={false}
+                />
             </div>
         );
     }
@@ -17,12 +57,13 @@ class Gallery extends Component {
 
 
 const mapStateToProps = state => ({
-    gallery: state.artists.artists,
+    gallery: state.gallery.gallery,
     user: state.users.user
 });
 
 const mapDispatchToProps = dispatch => ({
-   fetchPhotos: () => dispatch(fetchPhotos())
+   fetchPhotos: query => dispatch(fetchPhotos(query)),
+   deletePhoto: id => dispatch(deletePhoto(id))
 });
 
 
